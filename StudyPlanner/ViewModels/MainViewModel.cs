@@ -24,6 +24,18 @@ namespace StudyPlanner.ViewModels
             get => _selectedTask;
             set { _selectedTask = value; OnPropertyChanged(); }
         }
+        public ObservableCollection<StudyTask>[] WeeklyTasks { get; private set; } = new ObservableCollection<StudyTask>[7];
+        private DateTime _currentWeekStart;
+        public DateTime CurrentWeekStart
+        {
+            get => _currentWeekStart;
+            set
+            {
+                _currentWeekStart = value;
+                OnPropertyChanged();
+                UpdateWeeklyTasks();
+            }
+        }
 
         public ICommand AddTaskCommand { get; }
         public ICommand DeleteTaskCommand { get; }
@@ -34,6 +46,13 @@ namespace StudyPlanner.ViewModels
             AddTaskCommand = new RelayCommand<ICommand>(_ => AddTask());
             EditTaskCommand = new RelayCommand<ICommand>(_ => EditTask(), _ => SelectedTask != null);
             DeleteTaskCommand = new RelayCommand<ICommand>(_ => DeleteTask(), _ => SelectedTask != null);
+            CurrentWeekStart = GetStartOfWeek(DateTime.Today);
+
+            static DateTime GetStartOfWeek(DateTime dt)
+            {
+                int diff = dt.DayOfWeek - DayOfWeek.Sunday;
+                return dt.AddDays(-diff).Date;
+            }
         }
 
         private void AddTask()
@@ -74,6 +93,25 @@ namespace StudyPlanner.ViewModels
                     Tasks.Remove(SelectedTask);
                 }
             }
+        }
+
+        private void UpdateWeeklyTasks()
+        {
+            for (int i = 0; i < 7; i++)
+            {
+                WeeklyTasks[i] = new ObservableCollection<StudyTask>();
+            }
+
+            foreach (var task in Tasks)
+            {
+                var diff = (task.DueDate.Date - CurrentWeekStart).Days;
+                if (diff >= 0 && diff < 7)
+                {
+                    WeeklyTasks[diff].Add(task);
+                }
+            }
+
+            OnPropertyChanged(nameof(WeeklyTasks));
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

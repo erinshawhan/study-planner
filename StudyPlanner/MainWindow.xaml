@@ -3,10 +3,29 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:StudyPlanner"
+        xmlns:local="clr-namespace:StudyPlanner.ViewModels" xmlns:local1="clr-namespace:StudyPlanner.ViewModels"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="Study Planner" Height="450" Width="800">
+    <Window.DataContext>
+        <local:MainViewModel/>
+    </Window.DataContext>
 
-    </Grid>
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="10">
+            <Button Content="Add Task" Command="{Binding AddTaskCommand}" Margin="0,0,10,0"/>
+            <Button Content="Delete Task" Command="{Binding DeleteTaskCommand}"/>
+        </StackPanel>
+
+        <DataGrid ItemsSource="{Binding Tasks}"
+                  SelectedItem="{Binding SelectedTask}"
+                  AutoGenerateColumns="False"
+                  Margin="10">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="*"/>
+                <DataGridTextColumn Header="Subject" Binding="{Binding Subject}" Width="*"/>
+                <DataGridTextColumn Header="Due Date" Binding="{Binding DueDate}" Width="*"/>
+                <DataGridCheckBoxColumn Header="Completed" Binding="{Binding IsCompleted}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
 </Window>

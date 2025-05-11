@@ -10,102 +10,116 @@
         <local:MainViewModel/>
     </Window.DataContext>
 
-    <DockPanel>
+    <DockPanel Margin="10">
+        <!--Header with buttons-->
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="10">
             <Button Content="Add Task" Command="{Binding AddTaskCommand}" Margin="0,0,10,0"/>
+            <Button Content="Edit Task" Command="{Binding EditTaskCommand}" Margin="0,0,10,0"/>
             <Button Content="Delete Task" Command="{Binding DeleteTaskCommand}"/>
         </StackPanel>
+        
+        <!--Progress bar-->
+        
+        <!--Week navigation-->
+        <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="10">
+            <Button Content="&lt; Previous Week" Click="PrevWeek_Click"/>
+            <TextBlock Text="{Binding CurrentWeekStart, StringFormat='Week of {0:MMMM dd}'}" Margin="10,0"/>
+            <Button Content="Next Week &gt;" Click="NextWeek_Click"/>
+        </StackPanel>
+        
+        <!--Main content-->
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="200"/>
+            </Grid.RowDefinitions>
 
-        <DataGrid ItemsSource="{Binding Tasks}"
-                  SelectedItem="{Binding SelectedTask}"
-                  AutoGenerateColumns="False"
-                  Margin="10">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="*"/>
-                <DataGridTextColumn Header="Subject" Binding="{Binding Subject}" Width="*"/>
-                <DataGridTextColumn Header="Due Date" Binding="{Binding DueDate}" Width="*"/>
-                <DataGridCheckBoxColumn Header="Completed" Binding="{Binding IsCompleted}" Width="*"/>
-            </DataGrid.Columns>
-        </DataGrid>
+            <!--Task list-->
+            <DataGrid ItemsSource="{Binding Tasks}" SelectedItem="{Binding SelectedTask}"
+                    AutoGenerateColumns="False" Grid.Row="0" Margin="0,0,0,10">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="*"/>
+                    <DataGridTextColumn Header="Subject" Binding="{Binding Subject}" Width="*"/>
+                    <DataGridTextColumn Header="Due Date" Binding="{Binding DueDate}" Width="*"/>
+                    <DataGridCheckBoxColumn Header="Completed" Binding="{Binding IsCompleted}" Width="*"/>
+                </DataGrid.Columns>
+            </DataGrid>
 
-        <ScrollViewer DockPanel.Dock="Bottom" Height="200" Margin="10">
-            <UniformGrid Columns="7">
-                <HeaderedItemsControl ItemsSource="{Binding WeeklyTasks[0]}">
-                    <HeaderedItemsControl.Header>
-                        <TextBlock Text="Sunday" FontWeight="Bold" Margin="5"/>
-                    </HeaderedItemsControl.Header>
-                    <HeaderedItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Title}" Margin="5"/>
-                        </DataTemplate>
-                    </HeaderedItemsControl.ItemTemplate>
-                </HeaderedItemsControl>
-                <HeaderedItemsControl ItemsSource="{Binding WeeklyTasks[1]}">
-                    <HeaderedItemsControl.Header>
-                        <TextBlock Text="Monday" FontWeight="Bold" Margin="5"/>
-                    </HeaderedItemsControl.Header>
-                    <HeaderedItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Title}" Margin="5"/>
-                        </DataTemplate>
-                    </HeaderedItemsControl.ItemTemplate>
-                </HeaderedItemsControl>
-                <HeaderedItemsControl ItemsSource="{Binding WeeklyTasks[2]}">
-                    <HeaderedItemsControl.Header>
-                        <TextBlock Text="Tuesday" FontWeight="Bold" Margin="5"/>
-                    </HeaderedItemsControl.Header>
-                    <HeaderedItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Title}" Margin="5"/>
-                        </DataTemplate>
-                    </HeaderedItemsControl.ItemTemplate>
-                </HeaderedItemsControl>
-                <HeaderedItemsControl ItemsSource="{Binding WeeklyTasks[3]}">
-                    <HeaderedItemsControl.Header>
-                        <TextBlock Text="Wednesday" FontWeight="Bold" Margin="5"/>
-                    </HeaderedItemsControl.Header>
-                    <HeaderedItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Title}" Margin="5"/>
-                        </DataTemplate>
-                    </HeaderedItemsControl.ItemTemplate>
-                </HeaderedItemsControl>
-                <HeaderedItemsControl ItemsSource="{Binding WeeklyTasks[4]}">
-                    <HeaderedItemsControl.Header>
-                        <TextBlock Text="Thursday" FontWeight="Bold" Margin="5"/>
-                    </HeaderedItemsControl.Header>
-                    <HeaderedItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Title}" Margin="5"/>
-                        </DataTemplate>
-                    </HeaderedItemsControl.ItemTemplate>
-                </HeaderedItemsControl>
-                <HeaderedItemsControl ItemsSource="{Binding WeeklyTasks[5]}">
-                    <HeaderedItemsControl.Header>
-                        <TextBlock Text="Friday" FontWeight="Bold" Margin="5"/>
-                    </HeaderedItemsControl.Header>
-                    <HeaderedItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Title}" Margin="5"/>
-                        </DataTemplate>
-                    </HeaderedItemsControl.ItemTemplate>
-                </HeaderedItemsControl>
-                <HeaderedItemsControl ItemsSource="{Binding WeeklyTasks[6]}">
-                    <HeaderedItemsControl.Header>
-                        <TextBlock Text="Saturday" FontWeight="Bold" Margin="5"/>
-                    </HeaderedItemsControl.Header>
-                    <HeaderedItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Title}" Margin="5"/>
-                        </DataTemplate>
-                    </HeaderedItemsControl.ItemTemplate>
-                </HeaderedItemsControl>
-            </UniformGrid>
-        </ScrollViewer>
+            <!--Week view-->
+            <ScrollViewer DockPanel.Dock="Bottom" Height="200" Margin="10">
+                <UniformGrid Columns="7">
+                    <HeaderedItemsControl ItemsSource="{Binding WeeklyTasks[0]}">
+                        <HeaderedItemsControl.Header>
+                            <TextBlock Text="Sunday" FontWeight="Bold" Margin="5"/>
+                        </HeaderedItemsControl.Header>
+                        <HeaderedItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Title}" Margin="5"/>
+                            </DataTemplate>
+                        </HeaderedItemsControl.ItemTemplate>
+                    </HeaderedItemsControl>
+                    <HeaderedItemsControl ItemsSource="{Binding WeeklyTasks[1]}">
+                        <HeaderedItemsControl.Header>
+                            <TextBlock Text="Monday" FontWeight="Bold" Margin="5"/>
+                        </HeaderedItemsControl.Header>
+                        <HeaderedItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Title}" Margin="5"/>
+                            </DataTemplate>
+                        </HeaderedItemsControl.ItemTemplate>
+                    </HeaderedItemsControl>
+                    <HeaderedItemsControl ItemsSource="{Binding WeeklyTasks[2]}">
+                        <HeaderedItemsControl.Header>
+                            <TextBlock Text="Tuesday" FontWeight="Bold" Margin="5"/>
+                        </HeaderedItemsControl.Header>
+                        <HeaderedItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Title}" Margin="5"/>
+                            </DataTemplate>
+                        </HeaderedItemsControl.ItemTemplate>
+                    </HeaderedItemsControl>
+                    <HeaderedItemsControl ItemsSource="{Binding WeeklyTasks[3]}">
+                        <HeaderedItemsControl.Header>
+                            <TextBlock Text="Wednesday" FontWeight="Bold" Margin="5"/>
+                        </HeaderedItemsControl.Header>
+                        <HeaderedItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Title}" Margin="5"/>
+                            </DataTemplate>
+                        </HeaderedItemsControl.ItemTemplate>
+                    </HeaderedItemsControl>
+                    <HeaderedItemsControl ItemsSource="{Binding WeeklyTasks[4]}">
+                        <HeaderedItemsControl.Header>
+                            <TextBlock Text="Thursday" FontWeight="Bold" Margin="5"/>
+                        </HeaderedItemsControl.Header>
+                        <HeaderedItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Title}" Margin="5"/>
+                            </DataTemplate>
+                        </HeaderedItemsControl.ItemTemplate>
+                    </HeaderedItemsControl>
+                    <HeaderedItemsControl ItemsSource="{Binding WeeklyTasks[5]}">
+                        <HeaderedItemsControl.Header>
+                            <TextBlock Text="Friday" FontWeight="Bold" Margin="5"/>
+                        </HeaderedItemsControl.Header>
+                        <HeaderedItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Title}" Margin="5"/>
+                            </DataTemplate>
+                        </HeaderedItemsControl.ItemTemplate>
+                    </HeaderedItemsControl>
+                    <HeaderedItemsControl ItemsSource="{Binding WeeklyTasks[6]}">
+                        <HeaderedItemsControl.Header>
+                            <TextBlock Text="Saturday" FontWeight="Bold" Margin="5"/>
+                        </HeaderedItemsControl.Header>
+                        <HeaderedItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Title}" Margin="5"/>
+                            </DataTemplate>
+                        </HeaderedItemsControl.ItemTemplate>
+                    </HeaderedItemsControl>
+                </UniformGrid>
+            </ScrollViewer>
+        </Grid>
     </DockPanel>
-
-    <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="10">
-        <Button Content="&lt; Previous Week" Click="PrevWeek_Click"/>
-        <TextBlock Text="{Binding CurrentWeekStart}"
-    </StackPanel>
 </Window>

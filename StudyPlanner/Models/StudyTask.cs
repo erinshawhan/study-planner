@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace StudyPlanner.Models
 {
-    class StudyTask
+    public class StudyTask
     {
         public int Id { get; set; }
         public string Title { get; set; }

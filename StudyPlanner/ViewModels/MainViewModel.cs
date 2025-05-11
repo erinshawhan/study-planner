@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight.Command;
 using StudyPlanner.Models;
+using StudyPlanner.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -15,7 +16,7 @@ namespace StudyPlanner.ViewModels
 {
     class MainViewModel : INotifyPropertyChanged
     {
-        public ObservableCollection<StudyTask> Tasks { get; set; } = new();
+        public ObservableCollection<StudyTask> Tasks { get; set; } = [];
 
         private StudyTask _selectedTask;
         public StudyTask SelectedTask
@@ -26,21 +27,42 @@ namespace StudyPlanner.ViewModels
 
         public ICommand AddTaskCommand { get; }
         public ICommand DeleteTaskCommand { get; }
+        public ICommand EditTaskCommand { get; }
 
         public MainViewModel()
         {
             AddTaskCommand = new RelayCommand<ICommand>(_ => AddTask());
+            EditTaskCommand = new RelayCommand<ICommand>(_ => EditTask(), _ => SelectedTask != null);
             DeleteTaskCommand = new RelayCommand<ICommand>(_ => DeleteTask(), _ => SelectedTask != null);
         }
 
         private void AddTask()
         {
-            Tasks.Add(new StudyTask
+            var window = new AddTaskWindow();
+            if (window.ShowDialog() == true)
             {
-                Title = "New Task",
-                Subject = "General",
-                DueDate = DateTime.Today.AddDays(1)
+                Tasks.Add(window.Task);
+            }
+        }
+
+        private void EditTask()
+        {
+            var window = new AddTaskWindow(new StudyTask
+            {
+                Title = SelectedTask.Title,
+                Subject = SelectedTask.Subject,
+                DueDate = SelectedTask.DueDate,
+                IsCompleted = SelectedTask.IsCompleted
             });
+
+            if (window.ShowDialog() == true)
+            {
+                SelectedTask.Title = window.Task.Title;
+                SelectedTask.Subject = window.Task.Subject;
+                SelectedTask.DueDate = window.Task.DueDate;
+                SelectedTask.IsCompleted = window.Task.IsCompleted;
+                OnPropertyChanged(nameof(Tasks));
+            }
         }
 
         private void DeleteTask()

@@ -19,6 +19,11 @@
         </StackPanel>
         
         <!--Progress bar-->
+        <StackPanel Orientation="Horizontal" Margin="10">
+            <TextBlock Text="Overall Progress:" FontWeight="Bold" Margin="0,0,10,0"/>
+            <ProgressBar Width="200" Height="20" Value="{Binding OverallProgress}" Maximum="100"/>
+            <TextBlock Text="{Binding OverallProgress, StringFormat={} {0:F0}%}" Margin="10,0,0,0"/>
+        </StackPanel>
         
         <!--Week navigation-->
         <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="10">

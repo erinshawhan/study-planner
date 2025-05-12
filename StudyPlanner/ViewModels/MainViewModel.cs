@@ -36,6 +36,15 @@ namespace StudyPlanner.ViewModels
                 UpdateWeeklyTasks();
             }
         }
+        public double OverallProgress
+        {
+            get
+            {
+                if (Tasks.Count == 0) return 0;
+                int completed = Tasks.Count(t => t.IsCompleted);
+                return (double)completed / Tasks.Count * 100;
+            }
+        }
 
         public ICommand AddTaskCommand { get; }
         public ICommand DeleteTaskCommand { get; }
@@ -53,6 +62,7 @@ namespace StudyPlanner.ViewModels
                 int diff = dt.DayOfWeek - DayOfWeek.Sunday;
                 return dt.AddDays(-diff).Date;
             }
+            Tasks.CollectionChanged += (s, e) => NotifyProgressUpdate();
         }
 
         private void AddTask()
@@ -112,6 +122,24 @@ namespace StudyPlanner.ViewModels
             }
 
             OnPropertyChanged(nameof(WeeklyTasks));
+        }
+
+        private void NotifyProgressUpdate()
+        {
+            foreach (var task in Tasks)
+            {
+                task.PropertyChanged -= Task_PropertyChanged;
+                task.PropertyChanged += Task_PropertyChanged;
+            }
+            OnPropertyChanged(nameof(OverallProgress));
+        }
+
+        private void Task_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(StudyTask.IsCompleted))
+            {
+                OnPropertyChanged(nameof(OverallProgress));
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

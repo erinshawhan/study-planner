@@ -22,7 +22,19 @@ namespace StudyPlanner.ViewModels
         public ICommand DeleteTaskCommand { get; }
         public ObservableCollection<StudyTask> UpcomingTasks { get; set; } = [];
         public ObservableCollection<StudyTask> AllTasks { get; set; } = [];
-        public ObservableCollection<StudyTask> Tasks { get; set; } = [];
+        private ObservableCollection<StudyTask> _tasks = [];
+        public ObservableCollection<StudyTask> Tasks 
+        { 
+            get => _tasks;
+            set
+            {
+                if (_tasks != value)
+                {
+                    _tasks = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
         public ObservableCollection<StudyTask>[] WeeklyTasks { get; private set; } = new ObservableCollection<StudyTask>[7];
         public ObservableCollection<string> Subjects { get; set; } = [];
 
@@ -211,7 +223,7 @@ namespace StudyPlanner.ViewModels
 
         private void FilterTasks()
         {
-            Tasks.Clear();
+            _tasks.Clear();
 
             var filtered = AllTasks.AsEnumerable();
 

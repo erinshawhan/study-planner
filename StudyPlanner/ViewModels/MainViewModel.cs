@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight.Command;
 using StudyPlanner.Models;
+using StudyPlanner.Services;
 using StudyPlanner.Views;
 using System;
 using System.Collections.Generic;
@@ -18,10 +19,10 @@ namespace StudyPlanner.ViewModels
     {
         public ObservableCollection<StudyTask> Tasks { get; set; } = [];
 
-        private StudyTask _selectedTask;
+        private StudyTask? _selectedTask;
         public StudyTask SelectedTask
         {
-            get => _selectedTask;
+            get => _selectedTask!;
             set { _selectedTask = value; OnPropertyChanged(); }
         }
         public ObservableCollection<StudyTask>[] WeeklyTasks { get; private set; } = new ObservableCollection<StudyTask>[7];
@@ -62,7 +63,23 @@ namespace StudyPlanner.ViewModels
                 int diff = dt.DayOfWeek - DayOfWeek.Sunday;
                 return dt.AddDays(-diff).Date;
             }
+
             Tasks.CollectionChanged += (s, e) => NotifyProgressUpdate();
+
+            var loaded = DataService.LoadTasks();
+            foreach (var task in loaded)
+            {
+                Tasks.Add(task);
+            }
+
+            Tasks.CollectionChanged += (s, e) => SaveAll();
+            foreach (var task in Tasks)
+            {
+                task.PropertyChanged += Task_PropertyChanged!;
+            }
+
+            NotifyProgressUpdate();
+            CurrentWeekStart = GetStartOfWeek(DateTime.Today);
         }
 
         private void AddTask()
@@ -109,7 +126,7 @@ namespace StudyPlanner.ViewModels
         {
             for (int i = 0; i < 7; i++)
             {
-                WeeklyTasks[i] = new ObservableCollection<StudyTask>();
+                WeeklyTasks[i] = [];
             }
 
             foreach (var task in Tasks)
@@ -128,21 +145,27 @@ namespace StudyPlanner.ViewModels
         {
             foreach (var task in Tasks)
             {
-                task.PropertyChanged -= Task_PropertyChanged;
-                task.PropertyChanged += Task_PropertyChanged;
+                task.PropertyChanged -= Task_PropertyChanged!;
+                task.PropertyChanged += Task_PropertyChanged!;
             }
             OnPropertyChanged(nameof(OverallProgress));
         }
 
         private void Task_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
+            SaveAll();
             if (e.PropertyName == nameof(StudyTask.IsCompleted))
             {
                 OnPropertyChanged(nameof(OverallProgress));
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        private void SaveAll()
+        {
+            DataService.SaveTasks(Tasks);
+        }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
         private void OnPropertyChanged([CallerMemberName] string name = "") =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
     }

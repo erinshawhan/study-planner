@@ -15,17 +15,34 @@ using System.Windows.Input;
 
 namespace StudyPlanner.ViewModels
 {
-    class MainViewModel : INotifyPropertyChanged
+    public class MainViewModel : INotifyPropertyChanged
     {
+        public ICommand AddTaskCommand { get; }
+        public ICommand EditTaskCommand { get; }
+        public ICommand DeleteTaskCommand { get; }
+        public ObservableCollection<StudyTask> UpcomingTasks { get; set; } = [];
+        public ObservableCollection<StudyTask> AllTasks { get; set; } = [];
         public ObservableCollection<StudyTask> Tasks { get; set; } = [];
+        public ObservableCollection<StudyTask>[] WeeklyTasks { get; private set; } = new ObservableCollection<StudyTask>[7];
+        public ObservableCollection<string> Subjects { get; set; } = [];
 
+        private string? _selectedSubject;
+        public string? SelectedSubject { get => _selectedSubject; set { _selectedSubject = value!; FilterTasks(); } }
+        
+        private DateTime? _selectedDate;
+        public DateTime? SelectedDate 
+        { 
+            get => _selectedDate; 
+            set { _selectedDate = value; FilterTasks(); OnPropertyChanged(); } 
+        }
+        
         private StudyTask? _selectedTask;
         public StudyTask SelectedTask
         {
             get => _selectedTask!;
-            set { _selectedTask = value; OnPropertyChanged(); }
+            set { _selectedTask = value; FilterTasks(); OnPropertyChanged(); }
         }
-        public ObservableCollection<StudyTask>[] WeeklyTasks { get; private set; } = new ObservableCollection<StudyTask>[7];
+        
         private DateTime _currentWeekStart;
         public DateTime CurrentWeekStart
         {
@@ -37,48 +54,56 @@ namespace StudyPlanner.ViewModels
                 UpdateWeeklyTasks();
             }
         }
+        
         public double OverallProgress
         {
             get
             {
-                if (Tasks.Count == 0) return 0;
-                int completed = Tasks.Count(t => t.IsCompleted);
-                return (double)completed / Tasks.Count * 100;
+                if (AllTasks.Count == 0) return 0;
+                int completed = AllTasks.Count(t => t.IsCompleted);
+                return (double)completed / AllTasks.Count * 100;
             }
         }
 
-        public ICommand AddTaskCommand { get; }
-        public ICommand DeleteTaskCommand { get; }
-        public ICommand EditTaskCommand { get; }
+        public ICommand ClearFilterCommand => new RelayCommand(() =>
+        {
+            SelectedSubject = null;
+            SelectedDate = null;
+            FilterTasks();
+        });
 
         public MainViewModel()
         {
-            AddTaskCommand = new RelayCommand<ICommand>(_ => AddTask());
-            EditTaskCommand = new RelayCommand<ICommand>(_ => EditTask(), _ => SelectedTask != null);
-            DeleteTaskCommand = new RelayCommand<ICommand>(_ => DeleteTask(), _ => SelectedTask != null);
-            CurrentWeekStart = GetStartOfWeek(DateTime.Today);
-
-            static DateTime GetStartOfWeek(DateTime dt)
-            {
-                int diff = dt.DayOfWeek - DayOfWeek.Sunday;
-                return dt.AddDays(-diff).Date;
-            }
-
-            Tasks.CollectionChanged += (s, e) => NotifyProgressUpdate();
+            AddTaskCommand = new RelayCommand<object>(_ => AddTask());
+            EditTaskCommand = new RelayCommand<StudyTask>(_ => EditTask(), _ => SelectedTask != null);
+            DeleteTaskCommand = new RelayCommand<StudyTask>(_ => DeleteTask(), _ => SelectedTask != null);
 
             var loaded = DataService.LoadTasks();
-            foreach (var task in loaded)
+            AllTasks = [.. loaded];
+            Tasks = [];
+            UpcomingTasks = [];
+            Subjects = [];
+
+            foreach (var task in AllTasks)
             {
                 Tasks.Add(task);
-            }
-
-            Tasks.CollectionChanged += (s, e) => SaveAll();
-            foreach (var task in Tasks)
-            {
                 task.PropertyChanged += Task_PropertyChanged!;
             }
 
+            UpdateSubjectList();
+            FilterTasks();
+            UpdateReminders();
             NotifyProgressUpdate();
+
+            AllTasks.CollectionChanged += (s, e) =>
+            {
+                SaveAll();
+                UpdateSubjectList();
+                FilterTasks();
+                UpdateReminders();
+                OnPropertyChanged(nameof(OverallProgress));
+            };
+
             CurrentWeekStart = GetStartOfWeek(DateTime.Today);
         }
 
@@ -87,27 +112,16 @@ namespace StudyPlanner.ViewModels
             var window = new AddTaskWindow();
             if (window.ShowDialog() == true)
             {
-                Tasks.Add(window.Task);
+                AllTasks.Add(window.Task);
             }
         }
 
         private void EditTask()
         {
-            var window = new AddTaskWindow(new StudyTask
-            {
-                Title = SelectedTask.Title,
-                Subject = SelectedTask.Subject,
-                DueDate = SelectedTask.DueDate,
-                IsCompleted = SelectedTask.IsCompleted
-            });
-
+            var window = new AddTaskWindow();
             if (window.ShowDialog() == true)
             {
-                SelectedTask.Title = window.Task.Title;
-                SelectedTask.Subject = window.Task.Subject;
-                SelectedTask.DueDate = window.Task.DueDate;
-                SelectedTask.IsCompleted = window.Task.IsCompleted;
-                OnPropertyChanged(nameof(Tasks));
+                AllTasks.Add(window.Task);
             }
         }
 
@@ -115,10 +129,7 @@ namespace StudyPlanner.ViewModels
         {
             if (SelectedTask != null)
             {
-                if (SelectedTask != null)
-                {
-                    Tasks.Remove(SelectedTask);
-                }
+                AllTasks.Remove(SelectedTask);
             }
         }
 
@@ -129,7 +140,7 @@ namespace StudyPlanner.ViewModels
                 WeeklyTasks[i] = [];
             }
 
-            foreach (var task in Tasks)
+            foreach (var task in AllTasks)
             {
                 var diff = (task.DueDate.Date - CurrentWeekStart).Days;
                 if (diff >= 0 && diff < 7)
@@ -143,7 +154,7 @@ namespace StudyPlanner.ViewModels
 
         private void NotifyProgressUpdate()
         {
-            foreach (var task in Tasks)
+            foreach (var task in AllTasks)
             {
                 task.PropertyChanged -= Task_PropertyChanged!;
                 task.PropertyChanged += Task_PropertyChanged!;
@@ -154,15 +165,79 @@ namespace StudyPlanner.ViewModels
         private void Task_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             SaveAll();
-            if (e.PropertyName == nameof(StudyTask.IsCompleted))
+
+            if (e.PropertyName == nameof(StudyTask.IsCompleted) || e.PropertyName == nameof(StudyTask.DueDate))
             {
                 OnPropertyChanged(nameof(OverallProgress));
+                UpdateReminders();
             }
         }
 
         private void SaveAll()
         {
-            DataService.SaveTasks(Tasks);
+            DataService.SaveTasks(AllTasks);
+        }
+
+        private void UpdateReminders()
+        {
+            UpcomingTasks.Clear();
+            var upcoming = AllTasks.Where(t => !t.IsCompleted && (t.DueDate - DateTime.Today).TotalDays <= 2 && t.DueDate >= DateTime.Today);
+
+            foreach (var task in upcoming)
+            {
+                UpcomingTasks.Add(task);
+            }
+            OnPropertyChanged(nameof(UpcomingTasks));
+        }
+
+        private static DateTime GetStartOfWeek(DateTime dt)
+        {
+            int diff = dt.DayOfWeek - DayOfWeek.Monday;
+            if (diff < 0) diff += 7;
+            return dt.AddDays(-diff).Date;
+        }
+
+        public void NotifyUpcomingTasks()
+        {
+            foreach (var task in AllTasks)
+            {
+                if (!task.IsCompleted && (task.DueDate - DateTime.Now).TotalHours<= 24 &&
+                    (task.DueDate - DateTime.Now).TotalHours > 0)
+                {
+                    ReminderService.ShowReminder(task);
+                }
+            }
+        }
+
+        private void FilterTasks()
+        {
+            Tasks.Clear();
+
+            var filtered = AllTasks.AsEnumerable();
+
+            if (!string.IsNullOrEmpty(SelectedSubject))
+            {
+                filtered = filtered.Where(t => t.Subject == SelectedSubject);
+            }
+            if (SelectedDate.HasValue)
+            {
+                filtered = filtered.Where(t => t.DueDate.Date == SelectedDate.Value.Date);
+            }
+
+            foreach (var task in filtered)
+            {
+                Tasks.Add(task);
+            }
+        }
+
+        private void UpdateSubjectList()
+        {
+            var uniqueSubjects = AllTasks.Select(t => t.Subject).Distinct().OrderBy(s => s);
+            Subjects.Clear();
+            foreach (var subject in uniqueSubjects)
+            {
+                Subjects.Add(subject);
+            }
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

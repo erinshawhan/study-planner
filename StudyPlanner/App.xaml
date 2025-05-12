@@ -1,9 +1,9 @@
 ﻿<Application x:Class="StudyPlanner.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:StudyPlanner"
+             xmlns:local="clr-namespace:StudyPlanner.Converters"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <local:CountToVisibilityConverter x:Key="CountToVisibilityConverter"/>
     </Application.Resources>
 </Application>

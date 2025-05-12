@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StudyPlanner.ViewModels" xmlns:local1="clr-namespace:StudyPlanner.ViewModels"
         mc:Ignorable="d"
-        Title="Study Planner" Height="450" Width="800">
+        Title="Study Planner" Height="650" Width="800">
     <Window.DataContext>
         <local:MainViewModel/>
     </Window.DataContext>
@@ -15,8 +15,20 @@
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,0,0,10">
             <Button Content="Add Task" Command="{Binding AddTaskCommand}" Margin="0,0,10,0"/>
             <Button Content="Edit Task" Command="{Binding EditTaskCommand}" Margin="0,0,10,0"/>
-            <Button Content="Delete Task" Command="{Binding DeleteTaskCommand}"/>
+            <Button Content="Delete Task" Command="{Binding DeleteTaskCommand}" Margin="0,0,10,0"/>
         </StackPanel>
+        
+        <!--Reminders-->
+        <Expander Header="Upcoming Reminders" DockPanel.Dock="Top" IsExpanded="True" Margin="0,0,0,10"
+                  Visibility="{Binding UpcomingTasks.Count, Converter={StaticResource CountToVisibilityConverter}}">
+            <ItemsControl ItemsSource="{Binding UpcomingTasks}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Title}" FontWeight="Bold" Foreground="Red" Margin="5,2"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Expander>
         
         <!--Progress bar-->
         <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,10" VerticalAlignment="Center">
@@ -32,6 +44,17 @@
             <Button Content="Next Week &gt;" Click="NextWeek_Click"/>
         </StackPanel>
         
+        <!--Filtering-->
+        <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,10" VerticalAlignment="Center">
+            <TextBlock Text="Filter by Subject:" VerticalAlignment="Center" Margin="0,0,5,0"/>
+            <ComboBox Width="150" ItemsSource="{Binding Subjects}" SelectedItem="{Binding SelectedSubject}"/>
+
+            <TextBlock Text="Filter by Date:" VerticalAlignment="Center" Margin="10,0,5,0"/>
+            <DatePicker SelectedDate="{Binding SelectedDate}" Width="130"/>
+
+            <Button Content="Clear Filters" Command="{Binding ClearFilterCommand}" Margin="10,0,0,0"/>
+        </StackPanel>
+        
         <!--Main content-->
         <Grid>
             <Grid.RowDefinitions>
@@ -40,7 +63,7 @@
             </Grid.RowDefinitions>
 
             <!--Task list-->
-            <DataGrid ItemsSource="{Binding Tasks}" SelectedItem="{Binding SelectedTask}"
+            <DataGrid ItemsSource="{Binding Tasks}" SelectedItem="{Binding SelectedTask, Mode=TwoWay}"
                     AutoGenerateColumns="False" Grid.Row="0" Margin="0,0,0,10">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="*"/>

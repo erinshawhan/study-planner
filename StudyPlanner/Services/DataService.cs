@@ -15,11 +15,11 @@ namespace StudyPlanner.Services
 
         public static List<StudyTask> LoadTasks()
         {
-            if (!File.Exists(FilePath)) return new List<StudyTask>();
+            if (!File.Exists(FilePath)) return [];
 
             string json = File.ReadAllText(FilePath);
-            return JsonSerializer.Deserialize<List<StudyTask>>(json, 
-                new JsonSerializerOptions { PropertyNameCaseInsensitive = true}) ?? new List<StudyTask>();
+            return JsonSerializer.Deserialize<List<StudyTask>>(json,
+                new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? [];
         }
 
         public static void SaveTasks(IEnumerable<StudyTask> tasks)

@@ -65,7 +65,6 @@ namespace StudyPlanner.ViewModels
             }
         }
 
-
         private DateTime _currentWeekStart;
         public DateTime CurrentWeekStart
         {
@@ -78,15 +77,19 @@ namespace StudyPlanner.ViewModels
             }
         }
         
-        public double OverallProgress
-        {
-            get
-            {
-                if (AllTasks.Count == 0) return 0;
-                int completed = AllTasks.Count(t => t.IsCompleted);
-                return (double)completed / AllTasks.Count * 100;
-            }
-        }
+        //public double OverallProgress
+        //{
+        //    get
+        //    {
+        //        if (AllTasks.Count == 0) return 0;
+        //        int completed = AllTasks.Count(t => t.IsCompleted);
+        //        return (double)completed / AllTasks.Count * 100;
+        //    }
+        //}
+
+        public double OverallProgress => AllTasks.Count == 0 
+            ? 0 
+            : (double)AllTasks.Count(t => t.IsCompleted) / AllTasks.Count * 100;
 
         public ICommand ClearFilterCommand => new RelayCommand(() =>
         {
@@ -137,6 +140,7 @@ namespace StudyPlanner.ViewModels
             {
                 AllTasks.Add(window.Task);
             }
+            OnPropertyChanged(nameof(OverallProgress));
         }
 
         private void EditTask()
@@ -165,12 +169,12 @@ namespace StudyPlanner.ViewModels
             }
         }
 
-
         private void DeleteTask()
         {
             if (SelectedTask != null && AllTasks.Contains(SelectedTask))
             {
                 AllTasks.Remove(SelectedTask);
+                OnPropertyChanged(nameof(OverallProgress));
             }
         }
 
@@ -233,7 +237,7 @@ namespace StudyPlanner.ViewModels
 
         private static DateTime GetStartOfWeek(DateTime dt)
         {
-            int diff = dt.DayOfWeek - DayOfWeek.Monday;
+            int diff = dt.DayOfWeek - DayOfWeek.Sunday;
             if (diff < 0) diff += 7;
             return dt.AddDays(-diff).Date;
         }

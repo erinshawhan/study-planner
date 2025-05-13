@@ -1,4 +1,5 @@
 ﻿using StudyPlanner.Models;
+using StudyPlanner.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,21 +25,43 @@ namespace StudyPlanner.Views
         {
             InitializeComponent();
 
+            var mainVM = ((App)Application.Current).MainWindow.DataContext as MainViewModel;
+            SubjectComboBox.ItemsSource = mainVM?.Subjects;
+
             Task = task ?? new StudyTask { DueDate = DateTime.Today };
             TitleBox.Text = Task.Title;
-            SubjectBox.Text = Task.Subject;
+            SubjectComboBox.Text = Task.Subject;
             DueDatePicker.SelectedDate = Task.DueDate;
             IsCompletedCheckBox.IsChecked = Task.IsCompleted;
         }
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
-            Task.Title = TitleBox.Text;
-            Task.Subject = SubjectBox.Text;
+            // Validate title
+            if (string.IsNullOrWhiteSpace(TitleBox.Text))
+            {
+                MessageBox.Show("Please enter a title for the task.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                TitleBox.BorderBrush = Brushes.Red;
+                return;
+            }
+
+            // Validate subject
+            if (string.IsNullOrWhiteSpace(SubjectComboBox.Text))
+            {
+                MessageBox.Show("Please enter a subject.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                SubjectComboBox.BorderBrush = Brushes.Red;
+                return;
+            }
+
+            // Save the task
+            Task.Title = TitleBox.Text.Trim();
+            Task.Subject = SubjectComboBox.Text.Trim();
             Task.DueDate = DueDatePicker.SelectedDate ?? DateTime.Today;
             Task.IsCompleted = IsCompletedCheckBox.IsChecked ?? false;
+
             DialogResult = true;
             Close();
         }
+
     }
 }

@@ -47,14 +47,25 @@ namespace StudyPlanner.ViewModels
             get => _selectedDate; 
             set { _selectedDate = value; FilterTasks(); OnPropertyChanged(); } 
         }
-        
+
         private StudyTask? _selectedTask;
-        public StudyTask SelectedTask
+        public StudyTask? SelectedTask
         {
-            get => _selectedTask!;
-            set { _selectedTask = value; FilterTasks(); OnPropertyChanged(); }
+            get => _selectedTask;
+            set
+            {
+                if (_selectedTask != value)
+                {
+                    _selectedTask = value;
+
+                    OnPropertyChanged();
+                    (EditTaskCommand as RelayCommand<StudyTask>)?.RaiseCanExecuteChanged();
+                    (DeleteTaskCommand as RelayCommand<StudyTask>)?.RaiseCanExecuteChanged();
+                }
+            }
         }
-        
+
+
         private DateTime _currentWeekStart;
         public DateTime CurrentWeekStart
         {
@@ -130,16 +141,34 @@ namespace StudyPlanner.ViewModels
 
         private void EditTask()
         {
-            var window = new AddTaskWindow();
+            if (SelectedTask == null) return;
+
+            // Create a copy to pass
+            var editableCopy = new StudyTask
+            {
+                Title = SelectedTask.Title,
+                Subject = SelectedTask.Subject,
+                DueDate = SelectedTask.DueDate,
+                IsCompleted = SelectedTask.IsCompleted
+            };
+
+            var window = new AddTaskWindow(editableCopy);
             if (window.ShowDialog() == true)
             {
-                AllTasks.Add(window.Task);
+                // Apply changes to the original selected task
+                SelectedTask.Title = window.Task.Title;
+                SelectedTask.Subject = window.Task.Subject;
+                SelectedTask.DueDate = window.Task.DueDate;
+                SelectedTask.IsCompleted = window.Task.IsCompleted;
+
+              
             }
         }
 
+
         private void DeleteTask()
         {
-            if (SelectedTask != null)
+            if (SelectedTask != null && AllTasks.Contains(SelectedTask))
             {
                 AllTasks.Remove(SelectedTask);
             }
@@ -241,6 +270,7 @@ namespace StudyPlanner.ViewModels
                 Tasks.Add(task);
             }
         }
+
 
         private void UpdateSubjectList()
         {

@@ -3,22 +3,58 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:StudyPlanner.ViewModels" xmlns:local1="clr-namespace:StudyPlanner.ViewModels"
+        xmlns:local="clr-namespace:StudyPlanner.ViewModels"
         mc:Ignorable="d"
-        Title="Study Planner" Height="650" Width="800">
+        Title="Study Planner" Height="650" Width="800"
+        Background="#FFFCE4EC" WindowStartupLocation="CenterScreen">
+
     <Window.DataContext>
         <local:MainViewModel/>
     </Window.DataContext>
 
     <DockPanel Margin="10">
-        <!--Header with buttons-->
+        <DockPanel.Resources>
+            <!-- Label/Text styling -->
+            <Style TargetType="TextBlock">
+                <Setter Property="FontWeight" Value="SemiBold"/>
+                <Setter Property="Foreground" Value="#C2185B"/>
+            </Style>
+
+            <!-- Button styling -->
+            <Style TargetType="Button">
+                <Setter Property="Background" Value="#F06292"/>
+                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="FontWeight" Value="Bold"/>
+                <Setter Property="BorderBrush" Value="Transparent"/>
+                <Setter Property="Margin" Value="0,0,10,0"/>
+            </Style>
+
+            <!-- ComboBox styling -->
+            <Style TargetType="ComboBox">
+                <Setter Property="Background" Value="#FFF8BBD0"/>
+                <Setter Property="BorderBrush" Value="#F06292"/>
+            </Style>
+
+            <!-- DatePicker styling -->
+            <Style TargetType="DatePicker">
+                <Setter Property="Background" Value="#FFF8BBD0"/>
+                <Setter Property="BorderBrush" Value="#F06292"/>
+            </Style>
+
+            <!-- CheckBox styling -->
+            <Style TargetType="CheckBox">
+                <Setter Property="Foreground" Value="#C2185B"/>
+            </Style>
+        </DockPanel.Resources>
+
+        <!-- Header Buttons -->
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,0,0,10">
-            <Button Content="Add Task" Command="{Binding AddTaskCommand}" Margin="0,0,10,0"/>
-            <Button Content="Edit Task" Command="{Binding EditTaskCommand}" Margin="0,0,10,0"/>
-            <Button Content="Delete Task" Command="{Binding DeleteTaskCommand}" Margin="0,0,10,0"/>
+            <Button Content="Add Task" Command="{Binding AddTaskCommand}" />
+            <Button Content="Edit Task" Command="{Binding EditTaskCommand}" />
+            <Button Content="Delete Task" Command="{Binding DeleteTaskCommand}" />
         </StackPanel>
-        
-        <!--Reminders-->
+
+        <!-- Reminders -->
         <Expander Header="Upcoming Reminders" DockPanel.Dock="Top" IsExpanded="True" Margin="0,0,0,10"
                   Visibility="{Binding UpcomingTasks.Count, Converter={StaticResource CountToVisibilityConverter}}">
             <ItemsControl ItemsSource="{Binding UpcomingTasks}">
@@ -29,42 +65,45 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </Expander>
-        
-        <!--Progress bar-->
+
+        <!-- Progress Bar -->
         <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,10" VerticalAlignment="Center">
             <TextBlock Text="Overall Progress:" FontWeight="Bold" Margin="0,0,10,0"/>
             <ProgressBar Width="200" Height="20" Value="{Binding OverallProgress, Mode=OneWay}" Maximum="100"/>
-            <TextBlock Text="{Binding OverallProgress, Mode=OneWay, StringFormat={} {0:F0}%}" Margin="10,0,0,0"/>
+            <TextBlock Text="{Binding OverallProgress, StringFormat='{}{0:F0}%'}" Margin="10,0,0,0"/>
         </StackPanel>
-        
-        <!--Week navigation-->
+
+        <!-- Week Navigation -->
         <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,10" VerticalAlignment="Center">
             <Button Content="&lt; Previous Week" Click="PrevWeek_Click"/>
             <TextBlock Text="{Binding CurrentWeekStart, StringFormat='Week of {0:MMMM dd}'}" Margin="10,0"/>
             <Button Content="Next Week &gt;" Click="NextWeek_Click"/>
         </StackPanel>
-        
-        <!--Filtering-->
+
+        <!-- Filters -->
         <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,10" VerticalAlignment="Center">
             <TextBlock Text="Filter by Subject:" VerticalAlignment="Center" Margin="0,0,5,0"/>
-            <ComboBox Width="150" ItemsSource="{Binding Subjects}" SelectedItem="{Binding SelectedSubject}"/>
+            <ComboBox Width="150" ItemsSource="{Binding Subjects}" SelectedItem="{Binding SelectedSubject}" />
 
             <TextBlock Text="Filter by Date:" VerticalAlignment="Center" Margin="10,0,5,0"/>
             <DatePicker SelectedDate="{Binding SelectedDate}" Width="130"/>
 
             <Button Content="Clear Filters" Command="{Binding ClearFilterCommand}" Margin="10,0,0,0"/>
         </StackPanel>
-        
-        <!--Main content-->
+
+        <!-- Task List -->
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="200"/>
             </Grid.RowDefinitions>
 
-            <!--Task list-->
-            <DataGrid ItemsSource="{Binding Tasks}" SelectedItem="{Binding SelectedTask, Mode=TwoWay}"
-                    AutoGenerateColumns="False" Grid.Row="0" Margin="0,0,0,10">
+            <DataGrid ItemsSource="{Binding Tasks}" 
+                      SelectedItem="{Binding SelectedTask, Mode=TwoWay}"
+                      AutoGenerateColumns="False" Grid.Row="0" Margin="0,0,0,10"
+                      Background="#FFF8BBD0" BorderBrush="#F06292"
+                      RowBackground="#FFFCE4EC" AlternatingRowBackground="#FFF8BBD0"
+                      Foreground="#C2185B">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="*"/>
                     <DataGridTextColumn Header="Subject" Binding="{Binding Subject}" Width="*"/>
@@ -73,9 +112,10 @@
                 </DataGrid.Columns>
             </DataGrid>
 
-            <!--Week view-->
+            <!-- Weekly View -->
             <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                 <UniformGrid Columns="7">
+                    <!-- One stack per weekday -->
                     <StackPanel>
                         <TextBlock Text="Sunday" FontWeight="Bold" Margin="5"/>
                         <ItemsControl ItemsSource="{Binding WeeklyTasks[0]}">

@@ -1,0 +1,57 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\ttsdfn\\source\\repos\\PhotoViewer\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{466DD7BD-F7AF-4B7D-989B-E65C096676E3}|PhotoViewer\\PhotoViewer.vbproj|c:\\users\\ttsdfn\\source\\repos\\photoviewer\\photoviewer\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{466DD7BD-F7AF-4B7D-989B-E65C096676E3}|PhotoViewer\\PhotoViewer.vbproj|solutionrelative:photoviewer\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{466DD7BD-F7AF-4B7D-989B-E65C096676E3}|PhotoViewer\\PhotoViewer.vbproj|c:\\users\\ttsdfn\\source\\repos\\photoviewer\\photoviewer\\mainwindow.xaml.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{466DD7BD-F7AF-4B7D-989B-E65C096676E3}|PhotoViewer\\PhotoViewer.vbproj|solutionrelative:photoviewer\\mainwindow.xaml.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MainWindow.xaml",
+              "DocumentMoniker": "C:\\Users\\ttsdfn\\source\\repos\\PhotoViewer\\PhotoViewer\\MainWindow.xaml",
+              "RelativeDocumentMoniker": "PhotoViewer\\MainWindow.xaml",
+              "ToolTip": "C:\\Users\\ttsdfn\\source\\repos\\PhotoViewer\\PhotoViewer\\MainWindow.xaml",
+              "RelativeToolTip": "PhotoViewer\\MainWindow.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-05-09T03:44:04.885Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "MainWindow.xaml.vb",
+              "DocumentMoniker": "C:\\Users\\ttsdfn\\source\\repos\\PhotoViewer\\PhotoViewer\\MainWindow.xaml.vb",
+              "RelativeDocumentMoniker": "PhotoViewer\\MainWindow.xaml.vb",
+              "ToolTip": "C:\\Users\\ttsdfn\\source\\repos\\PhotoViewer\\PhotoViewer\\MainWindow.xaml.vb",
+              "RelativeToolTip": "PhotoViewer\\MainWindow.xaml.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-05-09T03:44:04.034Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

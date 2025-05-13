@@ -1,0 +1,74 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\ttsdfn\\source\\repos\\PlainTextEditor\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{5EEE22AD-27CE-47D5-AC7B-4B8662BA26FD}|PlainTextEditor\\PlainTextEditor.csproj|c:\\users\\ttsdfn\\source\\repos\\plaintexteditor\\plaintexteditor\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{5EEE22AD-27CE-47D5-AC7B-4B8662BA26FD}|PlainTextEditor\\PlainTextEditor.csproj|solutionrelative:plaintexteditor\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5EEE22AD-27CE-47D5-AC7B-4B8662BA26FD}|PlainTextEditor\\PlainTextEditor.csproj|c:\\users\\ttsdfn\\source\\repos\\plaintexteditor\\plaintexteditor\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5EEE22AD-27CE-47D5-AC7B-4B8662BA26FD}|PlainTextEditor\\PlainTextEditor.csproj|solutionrelative:plaintexteditor\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5EEE22AD-27CE-47D5-AC7B-4B8662BA26FD}|PlainTextEditor\\PlainTextEditor.csproj|c:\\users\\ttsdfn\\source\\repos\\plaintexteditor\\plaintexteditor\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5EEE22AD-27CE-47D5-AC7B-4B8662BA26FD}|PlainTextEditor\\PlainTextEditor.csproj|solutionrelative:plaintexteditor\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "MainWindow.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\ttsdfn\\source\\repos\\PlainTextEditor\\PlainTextEditor\\MainWindow.xaml.cs",
+              "RelativeDocumentMoniker": "PlainTextEditor\\MainWindow.xaml.cs",
+              "ToolTip": "C:\\Users\\ttsdfn\\source\\repos\\PlainTextEditor\\PlainTextEditor\\MainWindow.xaml.cs*",
+              "RelativeToolTip": "PlainTextEditor\\MainWindow.xaml.cs*",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-09T02:19:01.376Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Form1.cs",
+              "DocumentMoniker": "C:\\Users\\ttsdfn\\source\\repos\\PlainTextEditor\\PlainTextEditor\\Form1.cs",
+              "RelativeDocumentMoniker": "PlainTextEditor\\Form1.cs",
+              "ToolTip": "C:\\Users\\ttsdfn\\source\\repos\\PlainTextEditor\\PlainTextEditor\\Form1.cs*",
+              "RelativeToolTip": "PlainTextEditor\\Form1.cs*",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-09T02:18:39.237Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Form1.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\ttsdfn\\source\\repos\\PlainTextEditor\\PlainTextEditor\\Form1.cs",
+              "RelativeDocumentMoniker": "PlainTextEditor\\Form1.cs",
+              "ToolTip": "C:\\Users\\ttsdfn\\source\\repos\\PlainTextEditor\\PlainTextEditor\\Form1.cs [Design]*",
+              "RelativeToolTip": "PlainTextEditor\\Form1.cs [Design]*",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-09T02:18:08.58Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

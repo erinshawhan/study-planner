@@ -1,0 +1,74 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\ttsdfn\\source\\repos\\M2\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A9F8B14A-E459-4DF1-98FA-249CAA1285A8}|M2\\M2.csproj|c:\\users\\ttsdfn\\source\\repos\\m2\\m2\\program1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A9F8B14A-E459-4DF1-98FA-249CAA1285A8}|M2\\M2.csproj|solutionrelative:m2\\program1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A9F8B14A-E459-4DF1-98FA-249CAA1285A8}|M2\\M2.csproj|c:\\users\\ttsdfn\\source\\repos\\m2\\m2\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{A9F8B14A-E459-4DF1-98FA-249CAA1285A8}|M2\\M2.csproj|solutionrelative:m2\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A9F8B14A-E459-4DF1-98FA-249CAA1285A8}|M2\\M2.csproj|c:\\users\\ttsdfn\\source\\repos\\m2\\m2\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A9F8B14A-E459-4DF1-98FA-249CAA1285A8}|M2\\M2.csproj|solutionrelative:m2\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program1.cs",
+              "DocumentMoniker": "C:\\Users\\ttsdfn\\source\\repos\\M2\\M2\\Program1.cs",
+              "RelativeDocumentMoniker": "M2\\Program1.cs",
+              "ToolTip": "C:\\Users\\ttsdfn\\source\\repos\\M2\\M2\\Program1.cs",
+              "RelativeToolTip": "M2\\Program1.cs",
+              "ViewState": "AgIAAAcAAAAAAAAAAAAYwCQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-09T03:21:29.424Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "MainWindow.xaml",
+              "DocumentMoniker": "C:\\Users\\ttsdfn\\source\\repos\\M2\\M2\\MainWindow.xaml",
+              "RelativeDocumentMoniker": "M2\\MainWindow.xaml",
+              "ToolTip": "C:\\Users\\ttsdfn\\source\\repos\\M2\\M2\\MainWindow.xaml",
+              "RelativeToolTip": "M2\\MainWindow.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-05-09T03:21:09.011Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "MainWindow.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\ttsdfn\\source\\repos\\M2\\M2\\MainWindow.xaml.cs",
+              "RelativeDocumentMoniker": "M2\\MainWindow.xaml.cs",
+              "ToolTip": "C:\\Users\\ttsdfn\\source\\repos\\M2\\M2\\MainWindow.xaml.cs",
+              "RelativeToolTip": "M2\\MainWindow.xaml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-09T03:21:08.719Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

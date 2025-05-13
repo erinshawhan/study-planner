@@ -1,0 +1,15 @@
+C:\Users\ttsdfn\source\repos\M2\M2\obj\Debug\M2.csproj.AssemblyReference.cache
+C:\Users\ttsdfn\source\repos\M2\M2\obj\Debug\MainWindow.g.cs
+C:\Users\ttsdfn\source\repos\M2\M2\obj\Debug\App.g.cs
+C:\Users\ttsdfn\source\repos\M2\M2\obj\Debug\M2_MarkupCompile.cache
+C:\Users\ttsdfn\source\repos\M2\M2\obj\Debug\M2_MarkupCompile.lref
+C:\Users\ttsdfn\source\repos\M2\M2\bin\Debug\M2.exe.config
+C:\Users\ttsdfn\source\repos\M2\M2\bin\Debug\M2.exe
+C:\Users\ttsdfn\source\repos\M2\M2\bin\Debug\M2.pdb
+C:\Users\ttsdfn\source\repos\M2\M2\obj\Debug\MainWindow.baml
+C:\Users\ttsdfn\source\repos\M2\M2\obj\Debug\M2.g.resources
+C:\Users\ttsdfn\source\repos\M2\M2\obj\Debug\M2.Properties.Resources.resources
+C:\Users\ttsdfn\source\repos\M2\M2\obj\Debug\M2.csproj.GenerateResource.cache
+C:\Users\ttsdfn\source\repos\M2\M2\obj\Debug\M2.csproj.CoreCompileInputs.cache
+C:\Users\ttsdfn\source\repos\M2\M2\obj\Debug\M2.exe
+C:\Users\ttsdfn\source\repos\M2\M2\obj\Debug\M2.pdb

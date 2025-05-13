@@ -26,7 +26,7 @@ namespace StudyPlanner.Views
             InitializeComponent();
 
             var mainVM = ((App)Application.Current).MainWindow.DataContext as MainViewModel;
-            SubjectComboBox.ItemsSource = mainVM?.Subjects;
+            //SubjectComboBox.ItemsSource = mainVM?.Subjects;
 
             Task = task ?? new StudyTask { DueDate = DateTime.Today };
             TitleBox.Text = Task.Title;

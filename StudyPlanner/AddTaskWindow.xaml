@@ -56,7 +56,7 @@
         <TextBox x:Name="TitleBox" Grid.Row="0" Margin="80,5,0,5"/>
 
         <TextBlock Text="Subject:" Grid.Row="1"/>
-        <ComboBox x:Name="SubjectComboBox" Grid.Row="1" Margin="80,5,0,5"
+        <TextBox x:Name="SubjectComboBox" Grid.Row="1" Margin="80,5,0,5"
           Background="#FFF8BBD0" BorderBrush="#F06292"
           />
 
